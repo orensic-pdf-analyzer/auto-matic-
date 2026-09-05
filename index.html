@@ -3,160 +3,421 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>છોટાઉદેપુર નગર પાલિકા - મિલકત ટ્રાન્સફર ફી કેલ્ક્યુલેટર</title>
+    <title>છોટાઉદેપુર નગરપાલિકા - ઓટોમેટિક મિલકત ટ્રાન્સફર ફી કેલ્ક્યુલેટર</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
+        :root {
+            --primary: #1b4d3e;
+            --primary-dark: #113328;
+            --accent: #d4af37;
+            --light-bg: #f4f8f6;
+            --text-dark: #2c3e50;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 20px;
-            color: #333;
+            padding: 0;
+            font-family: 'Noto Sans Gujarati', sans-serif;
         }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
         }
-        h2 {
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
             text-align: center;
-            color: #1b4d3e;
+        }
+
+        .emblem img, .emblem i {
+            font-size: 50px;
+            color: var(--accent);
+        }
+
+        .portal-title h1 {
+            font-size: 26px;
+            font-weight: 700;
             margin-bottom: 5px;
+            letter-spacing: 0.5px;
         }
-        .subtitle {
-            text-align: center;
+
+        .portal-title p {
             font-size: 14px;
-            color: #666;
-            margin-bottom: 25px;
+            color: #d1e7dd;
         }
+
+        /* Main Container */
+        .main-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border-top: 5px solid var(--primary);
+        }
+
+        .card-header {
+            background: #e9f5f2;
+            padding: 20px 30px;
+            border-bottom: 1px solid #d2e8e2;
+        }
+
+        .card-header h2 {
+            color: var(--primary);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        /* Form Controls */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
         .form-group {
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
+
         label {
-            display: block;
-            margin-bottom: 8px;
             font-weight: 600;
             color: #444;
+            font-size: 15px;
         }
+
         select, input[type="number"] {
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
             font-size: 16px;
-            box-sizing: border-box;
+            transition: all 0.3s ease;
+            background: #fafafa;
         }
+
         select:focus, input[type="number"]:focus {
-            border-color: #1b4d3e;
+            border-color: var(--primary);
+            background: var(--white);
             outline: none;
+            box-shadow: 0 0 0 4px rgba(27, 77, 62, 0.1);
         }
-        .btn {
-            background-color: #1b4d3e;
-            color: white;
+
+        /* Info Badge */
+        .resolution-badge {
+            background: #fff8e1;
+            border-left: 4px solid var(--accent);
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #5d4037;
+            margin-bottom: 20px;
+        }
+
+        /* Calculate Button */
+        .btn-calculate {
+            background: var(--primary);
+            color: var(--white);
             border: none;
-            padding: 12px;
+            padding: 14px;
             width: 100%;
-            border-radius: 4px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        .btn:hover {
-            background-color: #14382d;
-        }
-        .result-box {
-            margin-top: 25px;
-            padding: 15px;
-            background-color: #e9f5f2;
-            border-left: 5px solid #1b4d3e;
-            border-radius: 4px;
-            display: none;
-        }
-        .result-box h3 {
-            margin: 0 0 10px 0;
-            color: #1b4d3e;
-        }
-        .result-item {
+            border-radius: 8px;
             font-size: 18px;
-            font-weight: bold;
-            color: #2c3e50;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-calculate:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-calculate:active {
+            transform: scale(0.98);
+        }
+
+        /* Result Section */
+        .result-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f0f7f4;
+            border: 2px dashed #b1d8cd;
+            border-radius: 10px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #d2e8e2;
+            padding-bottom: 8px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .result-total {
+            font-size: 22px;
+            font-weight: 700;
+            color: #d9534f;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #d2e8e2;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* Footer Info */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 13px;
+            border-top: 1px solid #ddd;
+        }
+
+        @media(max-width: 600px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>છોટાઉદેપુર નગર પાલિકા</h2>
-    <div class="subtitle">મિલકત ટ્રાન્સફર ફી કેલ્ક્યુલેટર (ઠરાવ ક્રમાંક: UDUHD/0791/08/2023)</div>
-    
-    <div class="form-group">
-        <label for="propertyType">મિલકતનો પ્રકાર:</label>
-        <select id="propertyType" onchange="toggleValueInput()">
-            <option value="residential">રહેણાંક / ખુલ્લા પ્લોટ માટે</option>
-            <option value="commercial">બિન-રહેણાંક મિલકતો માટે</option>
-            <option value="inheritance">વારસાઈ / વીલ માટે</option>
-        </select>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="emblem">
+                <i class="fa-solid fa-landmark-dome"></i>
+            </div>
+            <div class="portal-title">
+                <h1>છોટાઉદેપુર નગરપાલિકા</h1>
+                <p>શહેરી વિકાસ અને શહેરી ગૃહ નિર્માણ વિભાગ, ગુજરાત સરકાર</p>
+            </div>
+            <div class="emblem">
+                <i class="fa-solid fa-file-shield"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fa-solid fa-calculator"></i> મિલકત ટ્રાન્સફર ફી ઓટોમેટિક કેલ્ક્યુલેટર</h2>
+            </div>
+            <div class="card-body">
+                
+                <div class="resolution-badge">
+                    <i class="fa-solid fa-circle-info"></i> <strong>સંદર્ભ ઠરાવ:</strong> શહેરી વિકાસ અને શહેરી ગૃહ નિર્માણ વિભાગના ઠરાવ ક્રમાંક: UDUHD/0791/08/2023 (તારીખ: ૨૪-૦૮-૨૦૨૩) મુજબ મિલકત ટ્રાન્સફર ફીનું સત્તાવાર માળખું.
+                </div>
+
+                <div class="form-grid">
+                    <!-- Property Type Selection -->
+                    <div class="form-group">
+                        <label for="propertyType"><i class="fa-solid fa-building"></i> મિલકતનો પ્રકાર પસંદ કરો:</label>
+                        <select id="propertyType" onchange="handlePropertyChange()">
+                            <option value="residential">રહેણાંક / ખુલ્લા પ્લોટ માટે (૦.1% અથવા ₹ ૧,૦૦૦ - જે વધારે હોય)</option>
+                            <option value="commercial">બિન-રહેણાંક મિલકતો માટે (૦.2% અથવા ₹ ૨,૦૦૦ - જે વધારે હોય)</option>
+                            <option value="inheritance">વારસાઈ / વીલ માટે (કોઈ ફી નહીં)</option>
+                        </select>
+                    </div>
+
+                    <!-- Registration Value Input -->
+                    <div class="form-group" id="valueGroup">
+                        <label for="regValue"><i class="fa-solid fa-indian-rupee-sign"></i> મિલકત ટ્રાન્સફરની રજીસ્ટ્રેશનની કિંમત (રૂપિયામાં):</label>
+                        <input type="number" id="regValue" placeholder="દા.ત. 1500000" min="0">
+                    </div>
+
+                    <!-- Calculate Button -->
+                    <button class="btn-calculate" onclick="calculateTaxFee()">
+                        <i class="fa-solid fa-bolt"></i> ફી ગણતરી કરો
+                    </button>
+                </div>
+
+                <!-- Result Box -->
+                <div class="result-section" id="resultBox">
+                    <div class="result-header">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> ગણતરી અહેવાલ (Calculation Summary)
+                    </div>
+                    <div id="resultContent">
+                        <!-- Dynamic output injected by JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <div class="form-group" id="valueGroup">
-        <label for="regValue">મિલકત ટ્રાન્સફરની રજીસ્ટ્રેશનની કિંમત (રૂપિયામાં):</label>
-        <input type="number" id="regValue" placeholder="કિંમત દાખલ કરો" min="0">
-    </div>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; ૨૦૨૬ છોટાઉદેપુર નગરપાલિકા | સર્વાધિકાર સુરક્ષિત</p>
+        <p>વહીવટી અને ટેકનિકલ સહાયતા વિભાગ</p>
+    </footer>
 
-    <button class="btn" onclick="calculateFee()">ફી ગણો</button>
-
-    <div class="result-box" id="resultBox">
-        <h3>ગણતરીનું પરિણામ:</h3>
-        <div class="result-item" id="resultText"></div>
-    </div>
-</div>
-
-<script>
-    function toggleValueInput() {
-        const propertyType = document.getElementById('propertyType').value;
-        const valueGroup = document.getElementById('valueGroup');
-        if (propertyType === 'inheritance') {
-            valueGroup.style.display = 'none';
-        } else {
-            valueGroup.style.display = 'block';
-        }
-    }
-
-    function calculateFee() {
-        const propertyType = document.getElementById('propertyType').value;
-        const resultBox = document.getElementById('resultBox');
-        const resultText = document.getElementById('resultText');
-        
-        let finalFee = 0;
-
-        if (propertyType === 'inheritance') {
-            finalFee = 0;
-            resultText.innerHTML = `વારસાઈ / વીલ માટે: કોઈ ફી લેવાની નથી (₹ 0)[cite: 1]`;
-        } else {
-            const regValue = parseFloat(document.getElementById('regValue').value);
+    <!-- JavaScript Logic -->
+    <script>
+        function handlePropertyChange() {
+            const propType = document.getElementById('propertyType').value;
+            const valueGroup = document.getElementById('valueGroup');
             
-            if (isNaN(regValue) || regValue < 0) {
-                alert('કૃપા કરીને માન્ય રજીસ્ટ્રેશન કિંમત દાખલ કરો.');
-                return;
-            }
-
-            if (propertyType === 'residential') {
-                let calculatedPct = regValue * 0.001; // 0.1%
-                finalFee = Math.max(calculatedPct, 1000);
-                resultText.innerHTML = `કુલ મિલકત ટ્રાન્સફર ફી: ₹ ${finalFee.toLocaleString('en-IN')} <br><small style="font-size: 14px; color: #555; font-weight: normal;">(રહેણાંક/ખુલ્લા પ્લોટ માટે ૦.1% અથવા ₹ ૧,૦૦૦ બે માંથી જે વધારે હોય તે)[cite: 1]</small>`;
-            } else if (propertyType === 'commercial') {
-                let calculatedPct = regValue * 0.002; // 0.2%
-                finalFee = Math.max(calculatedPct, 2000);
-                resultText.innerHTML = `કુલ મિલકત ટ્રાન્સફર ફી: ₹ ${finalFee.toLocaleString('en-IN')} <br><small style="font-size: 14px; color: #555; font-weight: normal;">(બિન-રહેણાંક મિલકત માટે ૦.2% અથવા ₹ ૨,૦૦૦ બે માંથી જે વધારે હોય તે)[cite: 1]</small>`;
+            if (propType === 'inheritance') {
+                valueGroup.style.display = 'none';
+            } else {
+                valueGroup.style.display = 'flex';
             }
         }
 
-        resultBox.style.display = 'block';
-    }
-</script>
+        function calculateTaxFee() {
+            const propType = document.getElementById('propertyType').value;
+            const resultBox = document.getElementById('resultBox');
+            const resultContent = document.getElementById('resultContent');
+            
+            let finalFee = 0;
+            let calculationDetail = '';
 
+            if (propType === 'inheritance') {
+                finalFee = 0;
+                calculationDetail = `
+                    <div class="result-row">
+                        <span>મિલકતનો પ્રકાર:</span>
+                        <strong>વારસાઈ / વીલ</strong>
+                    </div>
+                    <div class="result-row">
+                        <span>લાગુ પડતી નીતિ:</span>
+                        <span>ઠરાવ ક્રમાંક: UDUHD/0791/08/2023 મુજબ માફી</span>
+                    </div>
+                    <div class="result-total">
+                        <span>કુલ ચૂકવવાની થતી ફી:</span>
+                        <span>₹ 0/- (કોઈ ફી લેવાની નથી)[cite: 1]</span>
+                    </div>
+                `;
+            } else {
+                const regVal = parseFloat(document.getElementById('regValue').value);
+
+                if (isNaN(regVal) || regVal < 0) {
+                    alert('કૃપા કરીને માન્ય રજીસ્ટ્રેશન કિંમત દાખલ કરો.');
+                    return;
+                }
+
+                if (propType === 'residential') {
+                    let calculatedPct = regVal * 0.001;
+                    let isMinApplied = calculatedPct < 1000;
+                    finalFee = Math.max(calculatedPct, 1000);
+
+                    calculationDetail = `
+                        <div class="result-row">
+                            <span>મિલકતનો પ્રકાર:</span>
+                            <strong>રહેણાંક / ખુલ્લા પ્લોટ</strong>
+                        </div>
+                        <div class="result-row">
+                            <span>રજીસ્ટ્રેશન કિંમત:</span>
+                            <span>₹ ${regVal.toLocaleString('en-IN')}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>ગણતરી (૦.૧% લેખે):</span>
+                            <span>₹ ${calculatedPct.toLocaleString('en-IN', {maximumFractionDigits: 2})}</span>
+                        </div>
+                        <div class="note">
+                            * નિયમ: ૦.૧% અથવા લઘુત્તમ ₹ ૧,૦૦૦ - બે માંથી જે વધારે હોય તે[cite: 1]. ${isMinApplied ? '(લઘુત્તમ મર્યાદા ₹ ૧,૦૦૦ લાગુ કરવામાં આવી છે)' : ''}
+                        </div>
+                        <div class="result-total">
+                            <span>કુલ ચૂકવવાની થતી ફી:</span>
+                            <span>₹ ${finalFee.toLocaleString('en-IN')}</span>
+                        </div>
+                    `;
+                } else if (propType === 'commercial') {
+                    let calculatedPct = regVal * 0.002;
+                    let isMinApplied = calculatedPct < 2000;
+                    finalFee = Math.max(calculatedPct, 2000);
+
+                    calculationDetail = `
+                        <div class="result-row">
+                            <span>મિલકતનો પ્રકાર:</span>
+                            <strong>બિન-રહેણાંક મિલકત (કોમર્શિયલ)</strong>
+                        </div>
+                        <div class="result-row">
+                            <span>રજીસ્ટ્રેશન કિંમત:</span>
+                            <span>₹ ${regVal.toLocaleString('en-IN')}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>ગણતરી (૦.૨% લેખે):</span>
+                            <span>₹ ${calculatedPct.toLocaleString('en-IN', {maximumFractionDigits: 2})}</span>
+                        </div>
+                        <div class="note">
+                            * નિયમ: ૦.૨% અથવા લઘુત્તમ ₹ ૨,૦૦૦ - બે માંથી જે વધારે હોય તે[cite: 1]. ${isMinApplied ? '(લઘુત્તમ મર્યાદા ₹ ૨,૦૦૦ લાગુ કરવામાં આવી છે)' : ''}
+                        </div>
+                        <div class="result-total">
+                            <span>કુલ ચૂકવવાની થતી ફી:</span>
+                            <span>₹ ${finalFee.toLocaleString('en-IN')}</span>
+                        </div>
+                    `;
+                }
+            }
+
+            resultContent.innerHTML = calculationDetail;
+            resultBox.style.display = 'block';
+        }
+    </script>
 </body>
 </html>
