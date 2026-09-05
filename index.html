@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>છોટાઉદેપુર નગર પાલિકા - મિલકત ટ્રાન્સફર ફી કેલ્ક્યુલેટર</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #1b4d3e;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        select:focus, input[type="number"]:focus {
+            border-color: #1b4d3e;
+            outline: none;
+        }
+        .btn {
+            background-color: #1b4d3e;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #14382d;
+        }
+        .result-box {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #e9f5f2;
+            border-left: 5px solid #1b4d3e;
+            border-radius: 4px;
+            display: none;
+        }
+        .result-box h3 {
+            margin: 0 0 10px 0;
+            color: #1b4d3e;
+        }
+        .result-item {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>છોટાઉદેપુર નગર પાલિકા</h2>
+    <div class="subtitle">મિલકત ટ્રાન્સફર ફી કેલ્ક્યુલેટર (ઠરાવ ક્રમાંક: UDUHD/0791/08/2023)</div>
+    
+    <div class="form-group">
+        <label for="propertyType">મિલકતનો પ્રકાર:</label>
+        <select id="propertyType" onchange="toggleValueInput()">
+            <option value="residential">રહેણાંક / ખુલ્લા પ્લોટ માટે</option>
+            <option value="commercial">બિન-રહેણાંક મિલકતો માટે</option>
+            <option value="inheritance">વારસાઈ / વીલ માટે</option>
+        </select>
+    </div>
+
+    <div class="form-group" id="valueGroup">
+        <label for="regValue">મિલકત ટ્રાન્સફરની રજીસ્ટ્રેશનની કિંમત (રૂપિયામાં):</label>
+        <input type="number" id="regValue" placeholder="કિંમત દાખલ કરો" min="0">
+    </div>
+
+    <button class="btn" onclick="calculateFee()">ફી ગણો</button>
+
+    <div class="result-box" id="resultBox">
+        <h3>ગણતરીનું પરિણામ:</h3>
+        <div class="result-item" id="resultText"></div>
+    </div>
+</div>
+
+<script>
+    function toggleValueInput() {
+        const propertyType = document.getElementById('propertyType').value;
+        const valueGroup = document.getElementById('valueGroup');
+        if (propertyType === 'inheritance') {
+            valueGroup.style.display = 'none';
+        } else {
+            valueGroup.style.display = 'block';
+        }
+    }
+
+    function calculateFee() {
+        const propertyType = document.getElementById('propertyType').value;
+        const resultBox = document.getElementById('resultBox');
+        const resultText = document.getElementById('resultText');
+        
+        let finalFee = 0;
+
+        if (propertyType === 'inheritance') {
+            finalFee = 0;
+            resultText.innerHTML = `વારસાઈ / વીલ માટે: કોઈ ફી લેવાની નથી (₹ 0)[cite: 1]`;
+        } else {
+            const regValue = parseFloat(document.getElementById('regValue').value);
+            
+            if (isNaN(regValue) || regValue < 0) {
+                alert('કૃપા કરીને માન્ય રજીસ્ટ્રેશન કિંમત દાખલ કરો.');
+                return;
+            }
+
+            if (propertyType === 'residential') {
+                let calculatedPct = regValue * 0.001; // 0.1%
+                finalFee = Math.max(calculatedPct, 1000);
+                resultText.innerHTML = `કુલ મિલકત ટ્રાન્સફર ફી: ₹ ${finalFee.toLocaleString('en-IN')} <br><small style="font-size: 14px; color: #555; font-weight: normal;">(રહેણાંક/ખુલ્લા પ્લોટ માટે ૦.1% અથવા ₹ ૧,૦૦૦ બે માંથી જે વધારે હોય તે)[cite: 1]</small>`;
+            } else if (propertyType === 'commercial') {
+                let calculatedPct = regValue * 0.002; // 0.2%
+                finalFee = Math.max(calculatedPct, 2000);
+                resultText.innerHTML = `કુલ મિલકત ટ્રાન્સફર ફી: ₹ ${finalFee.toLocaleString('en-IN')} <br><small style="font-size: 14px; color: #555; font-weight: normal;">(બિન-રહેણાંક મિલકત માટે ૦.2% અથવા ₹ ૨,૦૦૦ બે માંથી જે વધારે હોય તે)[cite: 1]</small>`;
+            }
+        }
+
+        resultBox.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
